@@ -71,3 +71,41 @@ exports.update = async (req, res) => {
     });
   }
 };
+// --------[ Comment Box]-------------
+//<<<<<<<<< Without pagination >>>>>>>
+// --------[Comment Box]--------------
+
+// exports.list = async (req, res) => {
+//   try {
+//     const { sort, order, limit } = req.body;
+//     const products = await Product.find({})
+//       .populate("category")
+//       .populate("subs")
+//       .sort([[sort, order]])
+//       .limit(limit)
+//       .exec();
+//     res.json(products);
+//   } catch (error) {}
+// };
+exports.list = async (req, res) => {
+  console.table(req.body);
+  try {
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 3;
+    const products = await Product.find({})
+      .skip((currentPage - 1) * perPage)
+      .populate("category")
+      .populate("subs")
+      .sort([[sort, order]])
+      .limit(perPage)
+      .exec();
+
+    res.json(products);
+  } catch (error) {}
+};
+
+exports.totalProduct = async (req, res) => {
+  const total = await Product.find({}).estimatedDocumentCount().exec();
+  res.json(total);
+};
