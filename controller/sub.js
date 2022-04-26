@@ -1,5 +1,6 @@
 const Sub = require("../models/sub");
 const slugify = require("slugify");
+const Product = require("../models/product");
 
 // Sub Create
 exports.create = async (req, res) => {
@@ -11,7 +12,6 @@ exports.create = async (req, res) => {
       slug: slugify(name),
       parent: parent,
     }).save();
-    console.log(sub);
     res.status(200).json(sub);
   } catch (error) {
     console.log("Sub create error ----->", error);
@@ -33,9 +33,14 @@ exports.list = async (req, res) => {
 exports.read = async (req, res) => {
   const params = req.params.slug;
   try {
-    const findSubItem = await Sub.findOne({ slug: params }).exec();
-    res.json(findSubItem);
+    const sub = await Sub.findOne({ slug: params }).exec();
+
+    const products = await Product.find({ subs: sub })
+      .populate("category")
+      .exec();
+    res.status(200).json({ sub, products });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error });
   }
 };
