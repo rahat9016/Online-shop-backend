@@ -106,7 +106,6 @@ exports.update = async (req, res) => {
 //<<<<<<<<< With pagination >>>>>>>
 // --------[Comment Box]--------------
 exports.list = async (req, res) => {
-  console.table(req.body);
   try {
     const { sort, order, page } = req.body;
     const currentPage = page || 1;
@@ -138,7 +137,6 @@ exports.productStar = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec();
 
   const { star } = req.body;
-  console.table(star);
   let existingRatingObject = product.ratings.find(
     (ele) => ele.postBy.toString() === user._id.toString()
   );

@@ -10,7 +10,6 @@ require("dotenv").config();
 const authRouter = require("./routes/auth");
 
 const app = express();
-
 //DB
 mongoose
   .connect(process.env.DATABASE)
@@ -18,7 +17,7 @@ mongoose
     console.log("Database Connected");
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error, "Error");
   });
 
 // Middleware
@@ -27,12 +26,10 @@ app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "2mb" }));
 app.use(cors());
 
-//Route
 app.use("/api", authRouter);
 readdirSync("./routes").map((r) => {
   app.use("/api", require("./routes/" + r));
 });
-
 // PORT
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

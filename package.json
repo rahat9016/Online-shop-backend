@@ -15,9 +15,12 @@
     "express-jwt": "^6.1.0",
     "firebase-admin": "^10.0.2",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.5.0",
     "mongoose": "^6.2.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "stripe": "^8.222.0",
+    "uniqueid": "^1.0.0"
   }
 }
